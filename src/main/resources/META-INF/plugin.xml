@@ -1,12 +1,15 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.yuriyk747.codehistoryintellijplugin</id>
-    <name>codehistory-intellij-plugin</name>
+    <id>com.github.yuriyk747.codehistory.intellij</id>
+    <name>CodeHistory</name>
     <vendor>yuriy-k747</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="CodeHistory" anchor="bottom" icon="CodeHistoryIcons.CODEHISTORY_TOOLWINDOW" factoryClass="com.github.yuriyk747.codehistory.intellij.CodeHistoryToolWindowFactory" canCloseContents="true"/>
+
+        <projectService serviceImplementation="com.github.yuriyk747.codehistory.intellij.actions.CodeHistoryToolWindow"/>
+
         <applicationService serviceImplementation="com.github.yuriyk747.codehistoryintellijplugin.services.MyApplicationService"/>
         <projectService serviceImplementation="com.github.yuriyk747.codehistoryintellijplugin.services.MyProjectService"/>
     </extensions>
