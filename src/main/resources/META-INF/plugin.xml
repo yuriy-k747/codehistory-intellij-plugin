@@ -12,6 +12,10 @@
 
         <applicationService serviceImplementation="com.github.yuriyk747.codehistoryintellijplugin.services.MyApplicationService"/>
         <projectService serviceImplementation="com.github.yuriyk747.codehistoryintellijplugin.services.MyProjectService"/>
+
+        <postStartupActivity implementation="com.github.yuriyk747.codehistory.intellij.trigger.EditorOpenTrigger"/>
+
+        <projectService serviceImplementation="com.github.yuriyk747.codehistory.intellij.trigger.CodeHistorySubmitter"/>
     </extensions>
 
     <applicationListeners>

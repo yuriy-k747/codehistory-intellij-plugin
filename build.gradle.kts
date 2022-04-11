@@ -3,6 +3,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 fun properties(key: String) = project.findProperty(key).toString()
 
+dependencies {
+    implementation("com.yuriy-k747:codehistory-core:0.2.5-beta")
+}
+
 plugins {
     // Java support
     id("java")
@@ -22,6 +26,7 @@ version = properties("pluginVersion")
 // Configure project's dependencies
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin

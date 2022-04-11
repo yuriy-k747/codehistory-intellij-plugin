@@ -1,8 +1,8 @@
 package com.github.yuriyk747.codehistory.intellij.trigger;
 
 public enum TriggerType {
-
-  UPDATE("Update");
+  UPDATE("Update"),
+  EDITOR_OPEN("Editor open");
 
   private final String name;
 

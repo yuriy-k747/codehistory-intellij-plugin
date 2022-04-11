@@ -14,7 +14,7 @@ public class CodeHistoryUtils {
   private static final Logger LOG = Logger.getInstance(CodeHistoryUtils.class);
 
   public static <T> T getService(@NotNull Project project, Class<T> clazz) {
-    var t = ServiceManager.getService(project, clazz);
+    T t = ServiceManager.getService(project, clazz);
     logAndThrowIfServiceNotFound(t, clazz.getName());
 
     return t;
