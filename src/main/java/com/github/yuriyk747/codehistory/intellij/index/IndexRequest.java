@@ -26,4 +26,9 @@ public class IndexRequest {
   public Project getProject() {
     return project;
   }
+
+  public IndexCallback callback() {
+    return callback;
+  }
+
 }

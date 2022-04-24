@@ -22,6 +22,11 @@ public class EditorOpenTrigger implements FileEditorManagerListener, StartupActi
   }
 
   @Override
+  public void fileClosed(@NotNull FileEditorManager source, @NotNull VirtualFile file) {
+    // nothing to do
+  }
+
+  @Override
   public void fileOpened(@NotNull FileEditorManager source, @NotNull VirtualFile file) {
     submit(Collections.singleton(file), source.getProject());
   }

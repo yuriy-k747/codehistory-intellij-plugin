@@ -2,7 +2,7 @@ package com.github.yuriyk747.codehistory.intellij.index;
 
 import com.github.yuriyk747.codehistory.intellij.common.CodeHistoryUtils;
 import com.github.yuriyk747.codehistory.intellij.common.ui.CodeHistoryConsole;
-import com.github.yuriyk747.codehistory.intellij.messages.CodeHistoryListener;
+import com.github.yuriyk747.codehistory.intellij.messages.IndexListener;
 import com.github.yuriyk747.codehistory.intellij.trigger.TriggerType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -33,6 +33,6 @@ public class IndexManager {
   }
 
   private void notifyStart(IndexRequest request) {
-    messageBus.syncPublisher(CodeHistoryListener.TOPIC).started(request);
+    messageBus.syncPublisher(IndexListener.TOPIC).started(request);
   }
 }
