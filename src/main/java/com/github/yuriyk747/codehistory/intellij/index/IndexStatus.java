@@ -14,8 +14,8 @@ public class IndexStatus {
 
   public enum Status {RUNNING, STOPPED, CANCELLING}
 
-  public static IndexStatus get(Project p) {
-    return CodeHistoryUtils.getService(p, IndexStatus.class);
+  public static IndexStatus get(Project project) {
+    return CodeHistoryUtils.getService(project, IndexStatus.class);
   }
 
   public synchronized boolean isRunning() {

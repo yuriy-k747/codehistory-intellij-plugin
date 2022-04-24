@@ -16,6 +16,10 @@
         <postStartupActivity implementation="com.github.yuriyk747.codehistory.intellij.trigger.EditorOpenTrigger"/>
 
         <projectService serviceImplementation="com.github.yuriyk747.codehistory.intellij.trigger.CodeHistorySubmitter"/>
+        <projectService serviceImplementation="com.github.yuriyk747.codehistory.intellij.index.IndexManager"/>
+        <projectService serviceImplementation="com.github.yuriyk747.codehistory.intellij.index.IndexStatus"/>
+        <projectService serviceInterface="com.github.yuriyk747.codehistory.intellij.common.ui.CodeHistoryConsole"
+                        serviceImplementation="com.github.yuriyk747.codehistory.intellij.common.ui.CodeHistoryConsoleImpl" />
     </extensions>
 
     <applicationListeners>

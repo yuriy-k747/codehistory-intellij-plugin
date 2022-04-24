@@ -1,8 +1,10 @@
 package com.github.yuriyk747.codehistory.intellij.index;
 
+import com.github.yuriyk747.codehistory.intellij.common.CanceledException;
 import com.github.yuriyk747.codehistory.intellij.common.ui.CodeHistoryConsole;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
+import com.intellij.openapi.progress.ProcessCanceledException;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.ui.Messages;
@@ -28,7 +30,15 @@ public class IndexTask extends Task.Backgroundable {
 
   @Override
   public void run(@NotNull ProgressIndicator indicator) {
+    try {
+      checkCanceled(indicator);
 
+    } catch (CanceledException | ProcessCanceledException e1) {
+      CodeHistoryConsole console = CodeHistoryConsole.get(request.getProject());
+      console.info("Analysis canceled");
+    } catch (Throwable e) {
+      handleError(e, indicator);
+    }
   }
 
   @Override
@@ -46,9 +56,8 @@ public class IndexTask extends Task.Backgroundable {
   }
 
   private void handleError(Throwable e, ProgressIndicator indicator) {
-    // if cancelled, ignore any errors since they were most likely caused by the interrupt
     if (!isCancelled(indicator)) {
-      var message = "Error running CodeHistory indexing";
+      String message = "Error running CodeHistory indexing";
       CodeHistoryConsole console = CodeHistoryConsole.get(request.getProject());
       console.error(message, e);
 
@@ -58,8 +67,14 @@ public class IndexTask extends Task.Backgroundable {
             () -> Messages.showErrorDialog(dialogMsg, "Error Running CodeHistory Indexing"), ModalityState.defaultModalityState());
       }
 
-      var callback = request.callback();
+      IndexCallback callback = request.callback();
       callback.onError(e);
+    }
+  }
+
+  private void checkCanceled(ProgressIndicator indicator) {
+    if (isCancelled(indicator)) {
+      throw new CanceledException();
     }
   }
 
