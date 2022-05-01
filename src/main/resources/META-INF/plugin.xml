@@ -11,15 +11,19 @@
         <projectService serviceImplementation="com.github.yuriyk747.codehistory.intellij.actions.CodeHistoryToolWindow"/>
 
         <applicationService serviceImplementation="com.github.yuriyk747.codehistoryintellijplugin.services.MyApplicationService"/>
+
         <projectService serviceImplementation="com.github.yuriyk747.codehistoryintellijplugin.services.MyProjectService"/>
-
-        <postStartupActivity implementation="com.github.yuriyk747.codehistory.intellij.trigger.EditorOpenTrigger"/>
-
         <projectService serviceImplementation="com.github.yuriyk747.codehistory.intellij.trigger.CodeHistorySubmitter"/>
         <projectService serviceImplementation="com.github.yuriyk747.codehistory.intellij.index.IndexManager"/>
         <projectService serviceImplementation="com.github.yuriyk747.codehistory.intellij.index.IndexStatus"/>
+        <projectService serviceImplementation="com.github.yuriyk747.codehistory.intellij.history.HistoryManager"/>
         <projectService serviceInterface="com.github.yuriyk747.codehistory.intellij.common.ui.CodeHistoryConsole"
                         serviceImplementation="com.github.yuriyk747.codehistory.intellij.common.ui.CodeHistoryConsoleImpl" />
+        <projectService serviceImplementation="com.github.yuriyk747.codehistory.intellij.trigger.EditorOpenTrigger"/>
+        <projectService serviceImplementation="com.github.yuriyk747.codehistory.intellij.core.CodeHistorySynchronizer"/>
+
+        <postStartupActivity implementation="com.github.yuriyk747.codehistory.intellij.BootstrapStartupActivity"/>
+        <postStartupActivity implementation="com.github.yuriyk747.codehistory.intellij.trigger.EditorOpenTrigger"/>
     </extensions>
 
     <applicationListeners>

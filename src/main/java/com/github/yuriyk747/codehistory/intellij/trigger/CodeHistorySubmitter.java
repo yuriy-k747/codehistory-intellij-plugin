@@ -5,11 +5,13 @@ import com.github.yuriyk747.codehistory.intellij.common.ui.CodeHistoryConsole;
 import com.github.yuriyk747.codehistory.intellij.index.IndexCallback;
 import com.github.yuriyk747.codehistory.intellij.index.IndexManager;
 import com.github.yuriyk747.codehistory.intellij.index.IndexTask;
+import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 
 import javax.annotation.CheckForNull;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 public class CodeHistorySubmitter {
@@ -26,7 +28,13 @@ public class CodeHistorySubmitter {
   public CodeHistorySubmitter(Project myProject) {
     this.myProject = myProject;
   }
-
+  
+  public void submitOpenFilesAuto(TriggerType trigger) {
+    FileEditorManager editorManager = FileEditorManager.getInstance(myProject);
+    VirtualFile[] openFiles = editorManager.getOpenFiles();
+    submitFiles(List.of(openFiles), trigger, true);
+  }
+  
   @CheckForNull
   public IndexTask submitFiles(Collection<VirtualFile> files, TriggerType trigger, boolean startInBackground) {
     return submitFiles(files, trigger, EMPTY, startInBackground);

@@ -8,7 +8,19 @@ import com.intellij.openapi.progress.ProcessCanceledException;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.vfs.VirtualFile;
+import dev.codehistory.core.commands.FilesHistoryCommand;
+import dev.codehistory.core.commands.FilesHistoryResult;
+import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class IndexTask extends Task.Backgroundable {
   private final IndexRequest request;
@@ -33,6 +45,17 @@ public class IndexTask extends Task.Backgroundable {
     try {
       checkCanceled(indicator);
 
+      Path basePath = Paths.get(Objects.requireNonNull(this.request.getProject().getBasePath()));
+      Path gitRepoPath = basePath.resolve(".git");
+      if(!Files.exists(gitRepoPath)) {
+        return;
+      }
+  
+      Set<String> filePaths = toSet(request.getFiles(), basePath);
+      FilesHistoryCommand command = new FilesHistoryCommand(gitRepoPath.toString(), filePaths);
+      FilesHistoryResult res = command.call();
+      
+      request.callback().onSuccess(null);
     } catch (CanceledException | ProcessCanceledException e1) {
       CodeHistoryConsole console = CodeHistoryConsole.get(request.getProject());
       console.info("Analysis canceled");
@@ -41,6 +64,13 @@ public class IndexTask extends Task.Backgroundable {
     }
   }
 
+  private static Set<String> toSet(Collection<VirtualFile> files, Path basePath) {
+    return files.stream().map(virtualFile -> {
+      Path relative = basePath.relativize(virtualFile.toNioPath());
+      return FilenameUtils.separatorsToUnix(relative.toString());
+    }).collect(Collectors.toSet());
+  }
+  
   @Override
   public boolean shouldStartInBackground() {
     return background;
